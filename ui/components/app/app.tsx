@@ -36,6 +36,12 @@ const App: React.FC<AppProps> = (props) => {
 export const hideShowProgressIndicatorHeader = "x-hide-show-progress-indicator";
 
 const _App: React.FC<AppProps> = (props) => {
+  // Handle empty publicBaseUrl by using current location
+  const baseUrl = props.config.publicBaseUrl || window.location.origin;
+  const basename = props.config.publicBaseUrl
+    ? new URL(props.config.publicBaseUrl).pathname
+    : '/';
+
   return (
     <SWRConfig
       value={{
@@ -47,12 +53,12 @@ const _App: React.FC<AppProps> = (props) => {
         revalidateIfStale: true,
       }}
     >
-      <GrpcClient.DefaultProvider grpcWebUrl={`${props.config.publicBaseUrl.replace(/\/$/, "")}/api`}>
+      <GrpcClient.DefaultProvider grpcWebUrl={`${baseUrl.replace(/\/$/, "")}/api`}>
         <HealthCheckContext.DefaultProvider>
           <Notifications.DefaultProvider>
             <BrokerConfig.DefaultProvider>
               <HelmetProvider>
-                <Router basename={new URL(props.config.publicBaseUrl).pathname} />
+                <Router basename={basename} />
               </HelmetProvider>
             </BrokerConfig.DefaultProvider>
           </Notifications.DefaultProvider>

@@ -22,6 +22,7 @@ services:
     environment:
       DEKAF_PULSAR_WEB_URL: "http://pulsar:8080"
       DEKAF_PULSAR_BROKER_URL: "pulsar://pulsar:6650"
+      DEKAF_PUBLIC_BASE_URL: ""
     volumes:
       - dekaf-library:/dekaf/data/library
     ports:
